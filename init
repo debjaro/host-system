@@ -1,0 +1,12 @@
+#!/bin/bash
+/lib/systemd/systemd-udevd &
+sleep 2
+udevadm trigger -c add
+udevadm settle
+if [ -d /system ] ; then
+    exec chroot /system/ /sbin/init
+else
+    while true; do
+        agetty --noclear --autologin root 9600 tty1
+    done
+fi 
